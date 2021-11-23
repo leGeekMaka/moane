@@ -33,4 +33,6 @@ Route::get('/reports', function () {
     return view('reports');
 });
 
-Route::resource('/operations', TransactionController::class);
+Route::get('/operations', function(){
+    return view('operations');
+});

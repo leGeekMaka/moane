@@ -57,7 +57,7 @@
             </a>
             <ul id="ddmenu_3" class="collapse dropdown-nav {{ Request::is('transactions') || Request::is('histories') ? 'show' : '' }}">
               <li>
-                <a href="{{route('operations.index')}}" class="{{ Request::is('transactions') ? 'active' : '' }}" >Opérations </a>
+                <a href="{{url('operations')}}" class="{{ Request::is('transactions') ? 'active' : '' }}" >Opérations </a>
               </li>
               <li>
                 <a href="{{url('histories')}}" class="{{ Request::is('histories') ? 'active' : '' }}" >Historiques </a>
