@@ -3,15 +3,15 @@
 namespace App\Http\Livewire\Operations;
 
 use App\Models\Operations;
-use Illuminate\Database\QueryException;
 use Livewire\Component;
-use Ramsey\Uuid\Type\Integer;
-
+use Illuminate\Support\Facades\Log;
 class Operation extends Component
 {
+    // edit: variable qui permet d'afficher le bouton modifier
+    //operationId: de recupere l'objet operation et je l'affecte à cette variable
+    public $libelle, $edit = "false", $operationsId = "";
 
-    public $libelle, $operation, $edit, $operationsId;
-//    protected $listeners = ['closeModal'];
+    protected $listeners = ['destroy'];
 
     public function render()
     {
@@ -20,18 +20,31 @@ class Operation extends Component
         ]);
     }
 
+
     protected $rules = [
         'libelle' => 'required|max:100|unique:operations'
     ];
+
+
     public function store(){
 
-        $this->validate();
-        Operations::create(['libelle' => $this->libelle]);
-        $this->libelle = "";
-        $this->emit('closeModal');
-        session()->flash('message', 'Sauvegarde reussie.');
+       // $this->validate();
+        try{
+            Operations::create(['libelle' => $this->libelle]);
+            $this->libelle = "";
+            $this->emit('closeModal');
+            $this->dispatchBrowserEvent('closeAlert');
+            session()->flash('message', 'Sauvegarde reussie.');
+        }catch (\Exception $e){
+            Log::error(sprintf('%d'.$e->getMessage(), __METHOD__));
+            session()->flash('error', 'oups une erreur est survenue, veuillez actualiser et essayer à nouveau.');
+            $this->emit('closeModal');
+        }
     }
 
+    /**
+     * @param $operationId
+     */
     public function edit($operationId)  {
         $this->edit = "true";
         $operation = Operations::find($operationId);
@@ -44,26 +57,57 @@ class Operation extends Component
         $this->validate();
         try{
             Operations::find($this->operationsId)->update(['libelle' => $this->libelle]);
-                $this->edit = "false";
-                $this->libelle = "";
-                $this->operationsId = "";
-                $this->emit('closeModal');
-                session()->flash('message', 'Mise à jour reussie.');
-
-        }catch(QueryException $e){
-            session()->flash('error', 'oups une erreur est survenue essayer de nouveau.');
+            $this->edit = "false";
+            $this->libelle = "";
+            $this->operationsId = null;
+            $this->emit('closeModal');
+            $this->dispatchBrowserEvent('closeAlert');
+            session()->flash('message', 'Mise à jour reussie.');
+        }catch(\Exception $e){
+            Log::error(sprintf('%d'.$e->getMessage(), __METHOD__));
+            session()->flash('error', 'oups une erreur est survenue, veuillez actualiser et essayer à nouveau.');
             $this->emit('closeModal');
         }
 
     }
 
+
+    /**
+     * @param $operationId
+     * on recupère l'id de l'operation à supprimer
+     */
+    public function getId($operationId){
+
+        try{
+            $this->operationsId = Operations::find($operationId);
+        }catch(\Exception $e){
+            Log::error(sprintf('%d'.$e->getMessage(), __METHOD__));
+            session()->flash('error', 'oups une erreur est survenue, veuillez actualiser et essayer à nouveau.');
+            $this->emit('closeModalDestroy');
+        }
+    }
+
+
     public function destroy(){
 
+        try{
+            Operations::find($this->operationsId->id)->delete();
+            $this->operationsId = null;
+            $this->emit('closeModalDestroy');
+            $this->dispatchBrowserEvent('closeAlert');
+            session()->flash('message', 'suppression reussie.');
+        }catch(\Exception $e){
+            Log::error(sprintf('%d'.$e->getMessage(), __METHOD__));
+            session()->flash('error', 'oups une erreur est survenue essayer de nouveau.');
+            $this->emit('closeModalDestroy');
+        }
+
     }
+
 
     public function cancel(){
         $this->edit = "false";
         $this->libelle = "";
-        $this->operationsId = "";
+        $this->operationsId = null;
     }
 }

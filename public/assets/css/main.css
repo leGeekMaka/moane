@@ -1916,6 +1916,11 @@ h6,
 .invoice-table .amount {
   min-width: 100px; }
 
+/* ========== Modals Css ============ */
+.warning-modal .warning-card .icon {
+  font-size: 120px;
+  line-height: 1; }
+
 /* ============== Icons Css ===========*/
 .icons-wrapper .icons,
 .icons-wrapper ul {

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-6">
             @if(session()->has('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div id="alert-message"   class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{session('message')}} </strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -56,7 +56,7 @@
                                             <i class="lni lni-pencil"></i>
                                         </button>
                                         <button class="text-danger" data-bs-toggle="modal" data-bs-target="#ModalTree"
-                                                wire:click="destroy({{$operation->id}})" >
+                                                wire:click="getId({{$operation->id}})" >
                                             <i class="lni lni-trash-can"></i>
                                         </button>
                                     </div>
@@ -108,9 +108,14 @@
             {{-- modal de suppression--}}
 
             <div class="warning-modal">
-                <div  wire:ignore.self class="modal fade" id="ModalTree" tabindex="-1" aria-hidden="true">
+                <div  wire:ignore.self class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalTree" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content card-style warning-card text-center">
+                            <div class="modal-header px-0 border-0 d-flex justify-content-end ">
+                                <button class="border-0 bg-transparent h1" wire:click="cancel" data-bs-dismiss="modal">
+                                    <i class="lni lni-cross-circle"></i>
+                                </button>
+                            </div>
                             <div class="modal-body">
                                 <div class="icon text-danger mb-20">
                                     <i class="lni lni-warning"></i>
@@ -118,11 +123,11 @@
                                 <div class="content mb-30">
                                     <h2 class="mb-15">Attention !</h2>
                                     <p class="text-sm text-medium">
-                                        Vous allez supprimer cette opération : <strong> test</strong>
+                                        Vous allez supprimer : <strong> {{ $libelle }}</strong>
                                     </p>
                                 </div>
                                 <div class="action d-flex flex-wrap justify-content-center">
-                                    <button data-bs-dismiss="modal" class="main-btn danger-btn rounded-full btn-hover m-1"
+                                    <button data-bs-dismiss="modal" wire:click="$emit('destroy')" class="main-btn danger-btn rounded-full btn-hover m-1"
                                     > Supprimer
                                     </button>
                                 </div>
@@ -142,6 +147,21 @@
             let myModalEl = document.getElementById('ModalTwo');
             let modal = bootstrap.Modal.getInstance(myModalEl);
             modal.hide()
-        })
+        });
+
+        Livewire.on('closeModalDestroy', () =>{
+            let myModalEl = document.getElementById('ModalTree');
+            let modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide()
+        });
+
+        document.addEventListener('closeAlert',closeAlert);
+        function closeAlert(){
+            setTimeout(()=>{
+                let alertNode = document.querySelector('#alert-message');
+                let alert = new bootstrap.Alert(alertNode);
+                alert.close()
+            },3000)
+        }
     </script>
 @endpush
