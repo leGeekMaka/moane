@@ -18,6 +18,10 @@
             <button wire:ignore type="button" class="main-btn btn-sm primary-btn btn-hover mb-2"
                     data-bs-toggle="modal" data-bs-target="#ModalTwo"><i class="lni lni-plus me-2"></i> Ajouter
             </button>
+
+            @php
+            $i = 1
+            @endphp
             <div class="card-style mb-30">
                 <h6 class="mb-10">Type d'opération</h6>
                 <div class="table-wrapper table-responsive">
@@ -41,7 +45,7 @@
                             @foreach ($operations as $operation )
                             <tr>
                                 <td>
-                                    <h6 class="text-sm">{{ $operation->id }}</h6>
+                                    <h6 class="text-sm">{{ $i++ }}</h6>
                                 </td>
                                 <td>
                                     <p> {{ $operation->libelle }} </p>

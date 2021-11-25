@@ -20,7 +20,6 @@ class Operation extends Component
         ]);
     }
 
-
     protected $rules = [
         'libelle' => 'required|max:100|unique:operations'
     ];
