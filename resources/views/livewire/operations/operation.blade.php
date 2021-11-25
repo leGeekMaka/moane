@@ -1,8 +1,22 @@
-<div>
+<div xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="row">
+        <div class="col-lg-6">
+            @if(session()->has('message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{session('message')}} </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if(session()->has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{session('error')}} </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+        </div>
         <div class="col-lg-12">
-            <button class="main-btn primary-btn btn-hover mb-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                <i class="lni lni-plus me-2"></i> Ajouter
+            <button wire:ignore type="button" class="main-btn btn-sm primary-btn btn-hover mb-2"
+                    data-bs-toggle="modal" data-bs-target="#ModalTwo"><i class="lni lni-plus me-2"></i> Ajouter
             </button>
             <div class="card-style mb-30">
                 <h6 class="mb-10">Type d'opération</h6>
@@ -37,10 +51,12 @@
                                 </td>
                                 <td>
                                     <div class="action">
-                                        <button class=" edit">
+                                        <button class="edit" data-bs-toggle="modal" data-bs-target="#ModalTwo"
+                                                wire:click="edit({{$operation->id}})" >
                                             <i class="lni lni-pencil"></i>
                                         </button>
-                                        <button class="text-danger">
+                                        <button class="text-danger" data-bs-toggle="modal" data-bs-target="#ModalTree"
+                                                wire:click="destroy({{$operation->id}})" >
                                             <i class="lni lni-trash-can"></i>
                                         </button>
                                     </div>
@@ -55,29 +71,77 @@
             </div>
             <!-- end card -->
 
-
-            <!-- formulaire de saisi des données -->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                <div class="offcanvas-header">
-                    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-
-
-                    @csrf
-                    <div class="input-style-1">
-                        <label>Libellé</label>
-                        <input type="text" id="libelle" name="libelle" placeholder="Libellé " />
+            <!-- modal store -->
+            <div class="warning-modal">
+                <div wire:ignore.self class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"  id="ModalTwo" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content card-style warning-card">
+                            <div class="modal-body">
+                                <div class="input-style-1">
+                                    <label>Libellé</label>
+                                    <input type="text" wire:model="libelle" placeholder="" />
+                                    @error('libelle') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                                <div class="text-center">
+                                    @if($edit === "true")
+                                        <button class="main-btn danger-btn-outline rounded-md btn-hover" data-bs-dismiss="modal"
+                                                wire:click="cancel">Annuler
+                                        </button>
+                                        <button class="main-btn active-btn-outline rounded-md btn-hover"
+                                                wire:click="update">Modifier
+                                        </button>
+                                    @else
+                                        <button class="main-btn danger-btn-outline rounded-md btn-hover" data-bs-dismiss="modal"
+                                                wire:click="cancel">Annuler
+                                        </button>
+                                        <button class="main-btn active-btn-outline rounded-md btn-hover"
+                                                wire:click="store">Enregistrer
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <button id="addTransaction" class="main-btn active-btn-outline rounded-md btn-hover" type="submit">Enregistrer
-                        </button>
-                    </div>
-
-
                 </div>
             </div>
+
+            {{-- modal de suppression--}}
+
+            <div class="warning-modal">
+                <div  wire:ignore.self class="modal fade" id="ModalTree" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content card-style warning-card text-center">
+                            <div class="modal-body">
+                                <div class="icon text-danger mb-20">
+                                    <i class="lni lni-warning"></i>
+                                </div>
+                                <div class="content mb-30">
+                                    <h2 class="mb-15">Attention !</h2>
+                                    <p class="text-sm text-medium">
+                                        Vous allez supprimer cette opération : <strong> test</strong>
+                                    </p>
+                                </div>
+                                <div class="action d-flex flex-wrap justify-content-center">
+                                    <button data-bs-dismiss="modal" class="main-btn danger-btn rounded-full btn-hover m-1"
+                                    > Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        Livewire.on('closeModal', () => {
+            let myModalEl = document.getElementById('ModalTwo');
+            let modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide()
+        })
+    </script>
+@endpush

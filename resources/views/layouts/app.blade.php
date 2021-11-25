@@ -156,8 +156,8 @@
       <!-- ========== footer end =========== -->
     </main>
     <!-- ======== main-wrapper end =========== -->
-    @stack('scripts')
     @livewireScripts
+    @stack('scripts')
     <!-- ========= All Javascript files linkup ======== -->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/Chart.min.js"></script>
