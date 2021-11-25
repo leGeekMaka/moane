@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Transactions;
 
 use Livewire\Component;
 use App\Models\Transaction as Trans;
+use Illuminate\Support\Facades\Log;
 class Transaction extends Component
 {
     public $libelle, $edit = "false", $transactionId = "";
@@ -17,7 +18,7 @@ class Transaction extends Component
     }
 
     protected $rules = [
-        'libelle' => 'required|max:100|unique:operations'
+        'libelle' => 'required|max:100|unique:transactions'
     ];
 
     public function store(){
