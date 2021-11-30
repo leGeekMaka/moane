@@ -9,7 +9,8 @@ class Operation extends Component
 {
     // edit: variable qui permet d'afficher le bouton modifier
     //operationId: de recupere l'objet operation et je l'affecte à cette variable
-    public $libelle, $edit = "false", $operationsId = "";
+    public $libelle, $edit = "false", $operationsId = "",$operationType;
+    const DEPOSIT = 1, WITHDRAWAL = 2;
 
     protected $listeners = ['destroy'];
 
@@ -29,8 +30,9 @@ class Operation extends Component
 
         $this->validate();
         try{
-            Operations::create(['libelle' => $this->libelle]);
+            Operations::create(['libelle' => $this->libelle, 'operation_type' => $this->operationType]);
             $this->libelle = "";
+            $this->operationType = "";
             $this->emit('closeModal');
             $this->dispatchBrowserEvent('closeAlert');
             session()->flash('message', 'Sauvegarde reussie.');
@@ -55,9 +57,10 @@ class Operation extends Component
 
         $this->validate();
         try{
-            Operations::find($this->operationsId)->update(['libelle' => $this->libelle]);
+            Operations::find($this->operationsId)->update(['libelle' => $this->libelle, 'operation_type' => $this->operationType]);
             $this->edit = "false";
             $this->libelle = "";
+            $this->operationType = "";
             $this->operationsId = null;
             $this->emit('closeModal');
             $this->dispatchBrowserEvent('closeAlert');
@@ -109,6 +112,7 @@ class Operation extends Component
     public function cancel(){
         $this->edit = "false";
         $this->libelle = "";
+        $this->operationType = "";
         $this->operationsId = null;
     }
 }

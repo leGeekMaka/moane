@@ -16,6 +16,8 @@ class CreateOperationsTable extends Migration
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
             $table->string('libelle',100)->unique();
+            $table->string('operation_type',100);
+            $table->engine = 'InnoDB';
             $table->timestamps();
         });
     }

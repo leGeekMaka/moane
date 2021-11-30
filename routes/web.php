@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TransactionController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +36,6 @@ Route::get('/reports', function () {
 Route::get('/operations', function(){
     return view('operations');
 });
-Route::get('/encoding-cash', function(){
-    return view('encoding-cash');
+Route::get('/movements', function(){
+    return view('movement');
 });

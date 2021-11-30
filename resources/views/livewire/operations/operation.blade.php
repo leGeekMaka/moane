@@ -86,6 +86,20 @@
                                     <input type="text" wire:model="libelle" placeholder="" />
                                     @error('libelle') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="select-style-1">
+                                            <label>Type d'opération</label>
+                                            <div class="select-position">
+                                                <select wire:model="operationType">
+                                                    <option disabled selected >Selectionner une Opération</option>
+                                                        <option value="{{SElF::DEPOSIT}}">Dépôt</option>
+                                                        <option value="{{SElF::WITHDRAWAL}}">Retrait</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="text-center">
                                     @if($edit === "true")
                                         <button class="main-btn danger-btn-outline rounded-md btn-hover" data-bs-dismiss="modal"

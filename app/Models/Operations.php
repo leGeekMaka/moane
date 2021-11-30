@@ -9,5 +9,11 @@ class Operations extends Model
 {
     use HasFactory;
     
-    protected $fillable=['libelle'];
+    protected $fillable=['libelle','operation_type'];
+
+    public function movements()
+    {
+        return $this->hasMany(Movement::class);
+    }
+
 }

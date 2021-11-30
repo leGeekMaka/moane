@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('libelle',100)->unique();
+            $table->engine = 'InnoDB';
             $table->timestamps();
         });
     }

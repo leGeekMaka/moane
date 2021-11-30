@@ -1,21 +1,34 @@
-@extends('layouts.app')
-
-@section('content')
+<div xmlns:wire="http://www.w3.org/1999/xhtml">
 
     <div class="form-elements-wrapper">
         <div class="row">
+            @if(session()->has('message'))
+                <div id="alert-message" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{session('message')}} </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if(session()->has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{session('error')}} </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="col-lg-6">
                 <!-- input style start -->
                 <div class="card-style mb-30">
-                    <h6 class="mb-25">Dépôt <span class="badge bg-primary">500 000 FCFA</span></h6>
+                    <h6 class="mb-25">Total Dépôt <span class="badge bg-primary">{{$total_amount}}</span></h6>
                     <div class="row">
+
                         <div class="col-md-6">
                             <div class="select-style-1">
                                 <label>Opération</label>
                                 <div class="select-position">
-                                    <select>
-                                        <option value="">Appro Caisse</option>
-                                        <option selected value="">Dépôt Client</option>
+                                    <select wire:model="operationId">
+                                        <option selected disabled>Selectionner une Opération</option>
+                                        @foreach($operations as $operation)
+                                            <option value="{{$operation->id}}">{{$operation->libelle}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -25,12 +38,11 @@
                             <div class="select-style-1">
                                 <label>Transaction</label>
                                 <div class="select-position">
-                                    <select>
-                                        <option value="">Mobile Money</option>
-                                        <option value="">Oange Money</option>
-                                        <option value="">Cash</option>
-                                        <option value="">Express Union</option>
-                                        <option value="">YUP</option>
+                                    <select wire:model="transactionId">
+                                        <option disabled selected>selectionner une transaction</option>
+                                        @foreach($transactions as $transaction)
+                                            <option value="{{$transaction->id}}">{{$transaction->libelle}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -39,17 +51,25 @@
                     <!-- end input -->
                     <div class="input-style-1">
                         <label>Libellé / Numéro</label>
-                        <input type="text" placeholder="Libellé / Numéro" />
+                        <input type="text" wire:model="label" placeholder="Libellé / Numéro"/>
                     </div>
                     <div class="input-style-1">
                         <label>Montant</label>
-                        <input type="text" placeholder="Montant" />
+                        <input type="text" wire:model="amount" placeholder="saisir le montant"/>
                     </div>
-                    <div class="text-center"> <button class="main-btn active-btn-outline rounded-md btn-hover" type="submit">Enregistrer</button> </div>
+                    <div class="text-center">
+                        <button wire:click="storeDeposit"
+                                class="main-btn active-btn-outline rounded-md btn-hover">Enregistrer
+                        </button>
+                    </div>
+
                 </div>
                 <!-- end card -->
             </div>
-            <!-- end col -->
+            <!-- end col  -->
+
+            {{-- Fin depôt --}}
+
             <div class="col-lg-6">
                 <div class="card-style mb-30">
                     <h6 class="mb-25">Retrait <span class="badge bg-primary">500 000 FCFA</span></h6>
@@ -84,17 +104,33 @@
                     <!-- end input -->
                     <div class="input-style-1">
                         <label>Libellé / Numéro</label>
-                        <input type="text" placeholder="Libellé / Numéro" />
+                        <input type="text" placeholder="Libellé / Numéro"/>
                     </div>
                     <div class="input-style-1">
                         <label>Montant</label>
-                        <input type="text" placeholder="Montant" />
+                        <input type="text" placeholder="Montant"/>
                     </div>
-                    <div class="text-center"> <button class="main-btn active-btn-outline rounded-md btn-hover" type="submit">Enregistrer</button> </div>
+                    <div class="text-center">
+                        <button class="main-btn active-btn-outline rounded-md btn-hover" type="submit">Enregistrer
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- end row -->
     </div>
-@stop
+</div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('closeAlert',closeAlert);
+        function closeAlert(){
+            setTimeout(()=>{
+                let alertNode = document.querySelector('#alert-message');
+                let alert = new bootstrap.Alert(alertNode);
+                alert.close()
+            },3000)
+        }
+    </script>
+@endpush
