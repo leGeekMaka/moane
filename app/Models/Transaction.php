@@ -10,4 +10,9 @@ class Transaction extends Model
     use HasFactory;
     protected $fillable=['libelle'];
 
+    public function movements()
+    {
+        return $this->hasMany(Movement::class);
+    }
+
 }
