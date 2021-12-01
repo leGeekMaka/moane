@@ -23,8 +23,8 @@
                             <div class="select-style-1">
                                 <label>Opération</label>
                                 <div class="select-position">
-                                    <select wire:model="operationId">
-                                        <option selected disabled>Selectionner une Opération</option>
+                                    <select wire:model="depositOperationId">
+                                        <option value="" selected disabled>Selectionner une Opération</option>
                                         @foreach($deposits as $deposit)
                                             <option value="{{$deposit->id}}">{{$deposit->libelle}}</option>
                                         @endforeach
@@ -37,8 +37,8 @@
                             <div class="select-style-1">
                                 <label>Transaction</label>
                                 <div class="select-position">
-                                    <select wire:model="transactionId">
-                                        <option disabled selected>selectionner une transaction</option>
+                                    <select wire:model="depositTransactionId">
+                                        <option value="" selected disabled>selectionner une transaction</option>
                                         @foreach($transactions as $transaction)
                                             <option value="{{$transaction->id}}">{{$transaction->libelle}}</option>
                                         @endforeach
@@ -50,11 +50,11 @@
                     <!-- end input -->
                     <div class="input-style-1">
                         <label>Libellé / Numéro</label>
-                        <input type="text" wire:model="label" placeholder="Libellé / Numéro"/>
+                        <input type="text" wire:model="labelDeposit" placeholder="Libellé / Numéro"/>
                     </div>
                     <div class="input-style-1">
                         <label>Montant</label>
-                        <input type="text" wire:model="amount" placeholder="saisir le montant"/>
+                        <input type="text" wire:model="amountDeposit" placeholder="saisir le montant"/>
                     </div>
                     <div class="text-center">
                         <button wire:click="storeDeposit"
@@ -77,8 +77,8 @@
                             <div class="select-style-1">
                                 <label>Opération</label>
                                 <div class="select-position">
-                                    <select wire:model="operationId">
-                                        <option disabled selected>Selectionner une Opération</option>
+                                    <select wire:model="withdrawalOperationId">
+                                        <option value="" selected disabled>Selectionner une Opération</option>
                                         @foreach($withdrawals as $withdrawal)
                                             <option value="{{$withdrawal->id}}">{{$withdrawal->libelle}}</option>
                                         @endforeach
@@ -91,8 +91,8 @@
                             <div class="select-style-1">
                                 <label>Transaction</label>
                                 <div class="select-position">
-                                    <select wire:model="transactionId">
-                                        <option disabled selected>selectionner une transaction</option>
+                                    <select wire:model="withdrawalTransactionId">
+                                        <option value="" selected disabled>selectionner une transaction</option>
                                         @foreach($transactions as $transaction)
                                             <option value="{{$transaction->id}}">{{$transaction->libelle}}</option>
                                         @endforeach

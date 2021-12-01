@@ -9,7 +9,14 @@ use Livewire\Component;
 
 class CashRegister extends Component
 {
-    public $label, $amount, $operationId = "", $transactionId = "" ,$labelWithdrawal, $amountWithdrawal;
+    public $labelDeposit,
+           $amountDeposit,
+           $withdrawalOperationId = "",
+           $withdrawalTransactionId = "" ,
+           $depositOperationId = "",
+           $depositTransactionId = "",
+           $labelWithdrawal,
+           $amountWithdrawal;
     const DEPOSIT = 1, WITHDRAWAL = 2;
     public function render()
     {
@@ -23,53 +30,58 @@ class CashRegister extends Component
             ]);
     }
 
-    public $rules = [
-        'operationId' => 'required',
-        'transactionId' => 'required',
-        'amount' => 'required|'
-    ];
+   /* public $rules = [
+        'depositOperationId' => 'required',
+        'depositTransactionId' => 'required',
+        'amountDeposit' => 'required',
+    ];*/
 
     public  function storeDeposit(){
-
-        $this->validate();
-
-        try{
-            \App\Models\Movement::create([
-                'operation_id' => $this->operationId,
-                'transaction_id' => $this->transactionId,
-                'user_id' => 1,
-                'movement_type' => "deposit",
-                'label' => $this->label,
-                'amount' => $this->amount
-            ]);
-            $this->operationId = "";
-            $this->transactionId = "";
-            $this->label = "";
-            $this->amount = "";
-            session()->flash('message', 'Transaction enregistreé avec succès.');
-            $this->dispatchBrowserEvent('closeAlert');
-
-        }catch(\Exception $e){
-            Log::error(sprintf('%d'.$e->getMessage(), __METHOD__));
-            session()->flash('error', 'oups une erreur est survenue, veuillez actualiser et essayer à nouveau.');
-        }
+        $this->validate([
+            'depositOperationId' => 'required',
+            'depositTransactionId' => 'required',
+            'amountDeposit' => 'required',
+        ]);
+        $this->store("deposit",
+                    $this->depositOperationId,
+                    $this->depositTransactionId,
+                    $this->labelDeposit,
+                    $this->amountDeposit
+                    );
+                    $this->depositOperationId = "";
+                    $this->depositTransactionId = "";
+                    $this->labelDeposit = "";
+                    $this->amountDeposit = "";
     }
 
     public function storeWithdrawal(){
+       $this->validate([
+           'withdrawalOperationId' => 'required',
+           'withdrawalTransactionId' => 'required',
+           'amountWithdrawal' => 'required',
+       ]);
+       $this->store("withdrawal",
+                    $this->withdrawalOperationId,
+                    $this->withdrawalTransactionId,
+                    $this->labelWithdrawal,
+                    $this->amountWithdrawal
+                    );
+                   $this->withdrawalOperationId = "";
+                   $this->withdrawalTransactionId = "";
+                   $this->labelWithdrawal = "";
+                   $this->amountWithdrawal = "";
+    }
 
+    private function store($typeOperation, $operation, $transaction, $label, $amount) {
         try{
             \App\Models\Movement::create([
-                'operation_id' => $this->operationId,
-                'transaction_id' => $this->transactionId,
+                'operation_id' => $operation,
+                'transaction_id' => $transaction,
                 'user_id' => 1,
-                'movement_type' => "withdrawal",
-                'label' => $this->labelWithdrawal,
-                'amount' => $this->amountWithdrawal
+                'movement_type' => $typeOperation,
+                'label' => $label,
+                'amount' => $amount
             ]);
-            $this->operationId = "";
-            $this->transactionId = "";
-            $this->labelWithdrawal = "";
-            $this->amountWithdrawal = "";
             session()->flash('message', 'Transaction enregistreé avec succès.');
             $this->dispatchBrowserEvent('closeAlert');
         }catch(\Exception $e){
