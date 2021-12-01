@@ -17,17 +17,16 @@
             <div class="col-lg-6">
                 <!-- input style start -->
                 <div class="card-style mb-30">
-                    <h6 class="mb-25">Total Dépôt <span class="badge bg-primary">{{$total_amount}}</span></h6>
+                    <h6 class="mb-25">Total Dépôt <span class="badge bg-primary">{{$total_deposit_amount}} FCFA</span></h6>
                     <div class="row">
-
                         <div class="col-md-6">
                             <div class="select-style-1">
                                 <label>Opération</label>
                                 <div class="select-position">
                                     <select wire:model="operationId">
                                         <option selected disabled>Selectionner une Opération</option>
-                                        @foreach($operations as $operation)
-                                            <option value="{{$operation->id}}">{{$operation->libelle}}</option>
+                                        @foreach($deposits as $deposit)
+                                            <option value="{{$deposit->id}}">{{$deposit->libelle}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -72,15 +71,17 @@
 
             <div class="col-lg-6">
                 <div class="card-style mb-30">
-                    <h6 class="mb-25">Retrait <span class="badge bg-primary">500 000 FCFA</span></h6>
+                    <h6 class="mb-25">Total Retrait <span class="badge bg-primary">{{$total_amount_withdrawn}} FCFA</span></h6>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="select-style-1">
                                 <label>Opération</label>
                                 <div class="select-position">
-                                    <select>
-                                        <option selected value="">Retrait Client</option>
-                                        <option value="">Autre retrait</option>
+                                    <select wire:model="operationId">
+                                        <option disabled selected>Selectionner une Opération</option>
+                                        @foreach($withdrawals as $withdrawal)
+                                            <option value="{{$withdrawal->id}}">{{$withdrawal->libelle}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -90,12 +91,11 @@
                             <div class="select-style-1">
                                 <label>Transaction</label>
                                 <div class="select-position">
-                                    <select>
-                                        <option value="">Mobile Money</option>
-                                        <option value="">Oange Money</option>
-                                        <option value="">Cash</option>
-                                        <option value="">Express Union</option>
-                                        <option value="">YUP</option>
+                                    <select wire:model="transactionId">
+                                        <option disabled selected>selectionner une transaction</option>
+                                        @foreach($transactions as $transaction)
+                                            <option value="{{$transaction->id}}">{{$transaction->libelle}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -104,14 +104,14 @@
                     <!-- end input -->
                     <div class="input-style-1">
                         <label>Libellé / Numéro</label>
-                        <input type="text" placeholder="Libellé / Numéro"/>
+                        <input type="text" wire:model="labelWithdrawal" placeholder="Libellé / Numéro"/>
                     </div>
                     <div class="input-style-1">
                         <label>Montant</label>
-                        <input type="text" placeholder="Montant"/>
+                        <input type="text" wire:model="amountWithdrawal" placeholder="Montant"/>
                     </div>
                     <div class="text-center">
-                        <button class="main-btn active-btn-outline rounded-md btn-hover" type="submit">Enregistrer
+                        <button wire:click="storeWithdrawal" class="main-btn active-btn-outline rounded-md btn-hover" type="submit">Enregistrer
                         </button>
                     </div>
                 </div>
