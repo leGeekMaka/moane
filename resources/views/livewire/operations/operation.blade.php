@@ -92,7 +92,7 @@
                                             <label>Type d'opération</label>
                                             <div class="select-position">
                                                 <select wire:model="operationType">
-                                                    <option disabled selected >Selectionner une Opération</option>
+                                                    <option value="" disabled selected >Selectionner une Opération</option>
                                                         <option value="{{SElF::DEPOSIT}}">Dépôt</option>
                                                         <option value="{{SElF::WITHDRAWAL}}">Retrait</option>
                                                 </select>

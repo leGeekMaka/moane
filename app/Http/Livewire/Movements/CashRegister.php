@@ -27,6 +27,8 @@ class CashRegister extends Component
                 'transactions' => Transaction::all(),
                 'total_deposit_amount' => \App\Models\Movement::where('movement_type','deposit')->sum('amount'),
                 'total_amount_withdrawn' => \App\Models\Movement::where('movement_type','withdrawal')->sum('amount'),
+                'dailyDeposits' => \App\Models\Movement::whereDay('created_at',date('d'))->where('movement_type','deposit')->get(),
+                'dailyWithdrawals' => \App\Models\Movement::whereDay('created_at',date('d'))->where('movement_type','withdrawal')->get(),
             ]);
     }
 
