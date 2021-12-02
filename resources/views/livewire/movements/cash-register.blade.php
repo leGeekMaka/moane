@@ -142,9 +142,13 @@
                                         <p>Afficher <span>10</span> Transactions</p>
                                     </div>
                                     <div class="right">
-                                        <div class="table-search d-flex">
+                                        <div class="table-search d-flex align-items-md-end">
+                                            <form class="md-4" action="#">
+                                                <input class="ml-2" type="text" wire:model.debounce.500ms="searchDepositAmount" placeholder="Montant" />
+                                                <button><i class="lni lni-search-alt"></i></button>
+                                            </form>
                                             <form action="#">
-                                                <input type="text" placeholder="Rechercher" />
+                                                <input type="text" wire:model.debounce.500ms="searchLabelDeposit" placeholder="libelle/ numéro" />
                                                 <button><i class="lni lni-search-alt"></i></button>
                                             </form>
                                         </div>
@@ -173,7 +177,7 @@
                                                     <p>{{$deposit->operation->libelle}}</p>
                                                 </td>
                                                 <td>
-                                                    <p>{{$deposit->amount}}</p>
+                                                    <p>{{$deposit->amount}} FCFA</p>
                                                 </td>
                                                 <td>
                                                     <p>{{$deposit->transaction->libelle}}</p>
@@ -241,8 +245,12 @@
                                     </div>
                                     <div class="right">
                                         <div class="table-search d-flex">
+                                            <form class="md-4" action="#">
+                                                <input class="ml-2" type="text" wire:model.debounce.500ms="searchWithdrawalAmount" placeholder="Montant" />
+                                                <button><i class="lni lni-search-alt"></i></button>
+                                            </form>
                                             <form action="#">
-                                                <input type="text" placeholder="Rechercher" />
+                                                <input type="text" wire:model.debounce.500ms="searchLabelWithdrawal" placeholder="libelle/ numéro" />
                                                 <button><i class="lni lni-search-alt"></i></button>
                                             </form>
                                         </div>

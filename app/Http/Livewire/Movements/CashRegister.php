@@ -16,7 +16,11 @@ class CashRegister extends Component
            $depositOperationId = "",
            $depositTransactionId = "",
            $labelWithdrawal,
-           $amountWithdrawal;
+           $amountWithdrawal,
+           $searchLabelDeposit,
+           $searchDepositAmount,
+           $searchLabelWithdrawal,
+           $searchWithdrawalAmount;
     const DEPOSIT = 1, WITHDRAWAL = 2;
     public function render()
     {
@@ -27,8 +31,16 @@ class CashRegister extends Component
                 'transactions' => Transaction::all(),
                 'total_deposit_amount' => \App\Models\Movement::where('movement_type','deposit')->sum('amount'),
                 'total_amount_withdrawn' => \App\Models\Movement::where('movement_type','withdrawal')->sum('amount'),
-                'dailyDeposits' => \App\Models\Movement::whereDay('created_at',date('d'))->where('movement_type','deposit')->get(),
-                'dailyWithdrawals' => \App\Models\Movement::whereDay('created_at',date('d'))->where('movement_type','withdrawal')->get(),
+                'dailyDeposits' => \App\Models\Movement::whereDay('created_at',date('d'))
+                                                          ->where('movement_type','deposit')
+                                                          ->where('label','LIKE',"%{$this->searchLabelDeposit}%")
+                                                          ->where('amount','LIKE',"%{$this->searchDepositAmount}%")
+                                                          ->get(),
+                'dailyWithdrawals' => \App\Models\Movement::whereDay('created_at',date('d'))
+                                                          ->where('movement_type','withdrawal')
+                                                          ->where('label','LIKE',"%{$this->searchLabelWithdrawal}%")
+                                                          ->where('amount','LIKE',"%{$this->searchDepositAmount}%")
+                                                          ->get(),
             ]);
     }
 
