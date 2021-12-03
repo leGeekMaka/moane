@@ -17,10 +17,9 @@ class CashRegister extends Component
            $depositTransactionId = "",
            $labelWithdrawal,
            $amountWithdrawal,
-           $searchLabelDeposit,
-           $searchDepositAmount,
-           $searchLabelWithdrawal,
-           $searchWithdrawalAmount;
+           $searchLabelAndAmountDeposit,
+           $searchLabelAndAmountWithdrawal;
+
     const DEPOSIT = 1, WITHDRAWAL = 2;
     public function render()
     {
@@ -33,13 +32,17 @@ class CashRegister extends Component
                 'total_amount_withdrawn' => \App\Models\Movement::where('movement_type','withdrawal')->sum('amount'),
                 'dailyDeposits' => \App\Models\Movement::whereDay('created_at',date('d'))
                                                           ->where('movement_type','deposit')
-                                                          ->where('label','LIKE',"%{$this->searchLabelDeposit}%")
-                                                          ->where('amount','LIKE',"%{$this->searchDepositAmount}%")
+                                                          ->where(function($query){
+                                                                $query->where('label','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
+                                                                $query->orWhere('amount','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
+                                                            })
                                                           ->get(),
                 'dailyWithdrawals' => \App\Models\Movement::whereDay('created_at',date('d'))
                                                           ->where('movement_type','withdrawal')
-                                                          ->where('label','LIKE',"%{$this->searchLabelWithdrawal}%")
-                                                          ->where('amount','LIKE',"%{$this->searchDepositAmount}%")
+                                                          ->where(function($query){
+                                                            $query->where('label','LIKE',"%{$this->searchLabelAndAmountWithdrawal}%");
+                                                            $query->orWhere('amount','LIKE',"%{$this->searchLabelAndAmountWithdrawal}%");
+                                                           })
                                                           ->get(),
             ]);
     }

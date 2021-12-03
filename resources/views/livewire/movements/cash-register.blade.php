@@ -126,15 +126,15 @@
             <div class="col-lg-12">
                 <div class="tab-style-1">
                     <nav class="nav " id="nav-tab">
-                        <button class="active" id="tab-1-1" data-bs-toggle="tab" data-bs-target="#tabContent-1-1">
+                        <button wire:ignore class="active" id="tab-1-1" data-bs-toggle="tab" data-bs-target="#tabContent-1-1">
                             Dépôt
                         </button>
-                        <button id="tab-1-2" data-bs-toggle="tab" data-bs-target="#tabContent-1-2">
+                        <button wire:ignore id="tab-1-2" data-bs-toggle="tab" data-bs-target="#tabContent-1-2">
                             Retrait
                         </button>
                     </nav>
                     <div class="tab-content" id="nav-tabContent1">
-                        <div class="tab-pane fade show active" id="tabContent-1-1">
+                        <div class="tab-pane fade show active" wire:ignore.self id="tabContent-1-1">
                             <div class="card-style mb-30">
                                 <h6 class="mb-10">Dépôt </h6>
                                 <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
@@ -143,12 +143,8 @@
                                     </div>
                                     <div class="right">
                                         <div class="table-search d-flex align-items-md-end">
-                                            <form class="md-4" action="#">
-                                                <input class="ml-2" type="text" wire:model.debounce.500ms="searchDepositAmount" placeholder="Montant" />
-                                                <button><i class="lni lni-search-alt"></i></button>
-                                            </form>
                                             <form action="#">
-                                                <input type="text" wire:model.debounce.500ms="searchLabelDeposit" placeholder="libelle/ numéro" />
+                                                <input type="text" wire:model.debounce.500ms="searchLabelAndAmountDeposit" placeholder="libelle/ numéro" />
                                                 <button><i class="lni lni-search-alt"></i></button>
                                             </form>
                                         </div>
@@ -236,7 +232,7 @@
                         @php
                             $j = 1
                         @endphp
-                        <div class="tab-pane fade" id="tabContent-1-2">
+                        <div class="tab-pane fade" id="tabContent-1-2" wire:ignore.self >
                             <div class="card-style mb-30">
                                 <h6 class="mb-10">Retrait </h6>
                                 <div class=" d-flex flex-wrap justify-content-between align-items-center py-3" >
@@ -245,12 +241,8 @@
                                     </div>
                                     <div class="right">
                                         <div class="table-search d-flex">
-                                            <form class="md-4" action="#">
-                                                <input class="ml-2" type="text" wire:model.debounce.500ms="searchWithdrawalAmount" placeholder="Montant" />
-                                                <button><i class="lni lni-search-alt"></i></button>
-                                            </form>
                                             <form action="#">
-                                                <input type="text" wire:model.debounce.500ms="searchLabelWithdrawal" placeholder="libelle/ numéro" />
+                                                <input type="text" wire:model.debounce.500ms="searchLabelAndAmountWithdrawal" placeholder="libelle/ numéro" />
                                                 <button><i class="lni lni-search-alt"></i></button>
                                             </form>
                                         </div>
@@ -297,6 +289,7 @@
                                         </tr>
                                         @empty
                                             <p>Aucune transaction pour le moment</p>
+                                            <br>
                                         @endforelse
                                         </tbody>
                                     </table>
@@ -334,24 +327,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="tabContent-1-3">
-                            <p>
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the
-                                industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and
-                                scrambled it to make a type specimen book. It has
-                                survived not only five centuries, but also the leap into
-                                electronic typesetting, remaining essentially unchanged.
-                                It was popularised in the 1960s with the release of
-                                Letraset sheets containing Lorem Ipsum passages, and
-                                more recently with desktop publishing software like
-                                Aldus PageMaker including versions of Lorem Ipsum.Lorem
-                                Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the
-                                industry's standard dummy text ever since 1912.
-                            </p>
                         </div>
                     </div>
                 </div>
