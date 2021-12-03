@@ -139,12 +139,12 @@
                                 <h6 class="mb-10">Dépôt </h6>
                                 <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
                                     <div class="left">
-                                        <p>Afficher <span>10</span> Transactions</p>
+                                        <p>Afficher <span>10 ères</span> Transactions</p>
                                     </div>
                                     <div class="right">
                                         <div class="table-search d-flex align-items-md-end">
                                             <form action="#">
-                                                <input type="text" wire:model.debounce.500ms="searchLabelAndAmountDeposit" placeholder="libelle/ numéro" />
+                                                <input type="text" wire:model.debounce.500ms="searchLabelAndAmountDeposit" placeholder="libelle ou numéro" />
                                                 <button><i class="lni lni-search-alt"></i></button>
                                             </form>
                                         </div>
@@ -198,33 +198,10 @@
                                 </div>
                                 <div class="pt-10 d-flex flex-wrap justify-content-between">
                                     <div class="left">
-                                        <p class="text-sm text-gray">Showing 12/30 products</p>
+                                        <p class="text-sm text-gray">   {{$dailyDeposits->total() > 10 ? 'Afficher 10 /'.$dailyDeposits->total() . 'Dépôts' : '' }}</p>
                                     </div>
                                     <div class="right table-pagination">
-                                        <ul class="d-flex justify-content-end align-items-center">
-                                            <li class="ms-2">
-                                                <a href="#0">
-                                                    <i class="lni lni-angle-double-left"></i>
-                                                </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0"> 1 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0" class="active"> 2 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0"> 3 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0"> 4 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0">
-                                                    <i class="lni lni-angle-double-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                       {{$dailyDeposits->links()}}
                                     </div>
                                 </div>
                             </div>
@@ -237,12 +214,12 @@
                                 <h6 class="mb-10">Retrait </h6>
                                 <div class=" d-flex flex-wrap justify-content-between align-items-center py-3" >
                                     <div class="left">
-                                        <p>Afficher <span>10</span> transactions</p>
+                                        <p>Afficher <span>10 ères</span> transactions</p>
                                     </div>
                                     <div class="right">
                                         <div class="table-search d-flex">
                                             <form action="#">
-                                                <input type="text" wire:model.debounce.500ms="searchLabelAndAmountWithdrawal" placeholder="libelle/ numéro" />
+                                                <input type="text" wire:model.debounce.500ms="searchLabelAndAmountWithdrawal" placeholder="libelle ou numéro" />
                                                 <button><i class="lni lni-search-alt"></i></button>
                                             </form>
                                         </div>
@@ -297,33 +274,11 @@
                                 </div>
                                 <div class="pt-10 d-flex flex-wrap justify-content-between">
                                     <div class="left">
-                                        <p class="text-sm text-gray">Showing 12/30 products</p>
+                                        <p class="text-sm text-gray">
+                                            {{$dailyWithdrawals->total() > 10 ? 'Afficher 10 /'.$dailyWithdrawals->total() . 'Retraits' : '' }}</p>
                                     </div>
                                     <div class="right table-pagination">
-                                        <ul class="d-flex justify-content-end align-items-center">
-                                            <li class="ms-2">
-                                                <a href="#0">
-                                                    <i class="lni lni-angle-double-left"></i>
-                                                </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0"> 1 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0" class="active"> 2 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0"> 3 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0"> 4 </a>
-                                            </li>
-                                            <li class="ms-2">
-                                                <a href="#0">
-                                                    <i class="lni lni-angle-double-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                      {{$dailyWithdrawals->links()}}
                                     </div>
                                 </div>
                             </div>

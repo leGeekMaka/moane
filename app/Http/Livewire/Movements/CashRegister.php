@@ -36,14 +36,14 @@ class CashRegister extends Component
                                                                 $query->where('label','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
                                                                 $query->orWhere('amount','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
                                                             })
-                                                          ->get(),
+                                                          ->orderBy('created_at', 'DESC')->paginate(10),
                 'dailyWithdrawals' => \App\Models\Movement::whereDay('created_at',date('d'))
                                                           ->where('movement_type','withdrawal')
                                                           ->where(function($query){
                                                             $query->where('label','LIKE',"%{$this->searchLabelAndAmountWithdrawal}%");
                                                             $query->orWhere('amount','LIKE',"%{$this->searchLabelAndAmountWithdrawal}%");
                                                            })
-                                                          ->get(),
+                                                          ->orderBy('created_at', 'DESC')->paginate(10),
             ]);
     }
 
