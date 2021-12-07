@@ -19,6 +19,7 @@ class CashRegister extends Component
            $amountWithdrawal,
            $searchLabelAndAmountDeposit,
            $searchLabelAndAmountWithdrawal;
+           public $editId;
 
     const DEPOSIT = 1, WITHDRAWAL = 2;
     public function render()
@@ -31,12 +32,12 @@ class CashRegister extends Component
                 'total_deposit_amount' => \App\Models\Movement::where('movement_type','deposit')->sum('amount'),
                 'total_amount_withdrawn' => \App\Models\Movement::where('movement_type','withdrawal')->sum('amount'),
                 'dailyDeposits' => \App\Models\Movement::whereDay('created_at',date('d'))
-                                                          ->where('movement_type','deposit')
-                                                          ->where(function($query){
-                                                                $query->where('label','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
-                                                                $query->orWhere('amount','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
-                                                            })
-                                                          ->orderBy('created_at', 'DESC')->paginate(10),
+                                                        ->where('movement_type','deposit')
+                                                        ->where(function($query){
+                                                         $query->where('label','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
+                                                         $query->orWhere('amount','LIKE',"%{$this->searchLabelAndAmountDeposit}%");
+                                                         })
+                                                        ->orderBy('created_at', 'DESC')->paginate(10),
                 'dailyWithdrawals' => \App\Models\Movement::whereDay('created_at',date('d'))
                                                           ->where('movement_type','withdrawal')
                                                           ->where(function($query){
@@ -47,6 +48,14 @@ class CashRegister extends Component
             ]);
     }
 
+    protected $listeners = [
+        'movementUpdated' => 'onMovementUpdate'
+    ];
+
+    public function onMovementUpdate(){
+
+        $this->reset('editId');
+    }
    /* public $rules = [
         'depositOperationId' => 'required',
         'depositTransactionId' => 'required',
@@ -105,5 +114,9 @@ class CashRegister extends Component
             Log::error(sprintf('%d'.$e->getMessage(), __METHOD__));
             session()->flash('error', 'oups une erreur est survenue, veuillez actualiser et essayer à nouveau.');
         }
+    }
+
+    public function edit($id){
+        $this->editId = $id;
     }
 }

@@ -118,6 +118,7 @@
             </div>
         </div>
 
+        <!-- Historique de transaction journalière -->
         @php
             $i = 1
         @endphp
@@ -183,12 +184,21 @@
                                                 </td>
                                                 <td>
                                                     <div class="action">
-                                                        <button class="text-primary">
+                                                        <button wire:click="edit({{$deposit->id}})" class="text-primary">
                                                             <i class="lni lni-pencil"></i>
                                                         </button>
                                                     </div>
                                                 </td>
                                             </tr>
+                                            @if($editId === $deposit->id)
+                                                <tr>
+                                                    <livewire:movements.table-form
+                                                    :deposits="$deposits"
+                                                    :deposit="$deposit"
+                                                    :transactions="$transactions"
+                                                    :wire:key="'table-form-'.$deposit->id"/>
+                                                </tr>
+                                            @endif
                                             @empty
                                                 <p>Aucune transaction pour le moment</p>
                                         @endforelse
@@ -258,12 +268,21 @@
                                             </td>
                                             <td>
                                                 <div class="action">
-                                                    <button class="text-danger">
+                                                    <button wire:click="edit({{$withdrawal->id}})" class="text-primary">
                                                         <i class="lni lni-pencil"></i>
                                                     </button>
                                                 </div>
                                             </td>
                                         </tr>
+                                        @if($editId === $withdrawal->id)
+                                            <tr>
+                                                <livewire:movements.table-form-withdrawal
+                                                :withdrawals="$withdrawals"
+                                                :withdrawal="$withdrawal"
+                                                :transactions="$transactions"
+                                                :wire:key="'table-form-'.$withdrawal->id"/>
+                                            </tr>
+                                        @endif
                                         @empty
                                             <p>Aucune transaction pour le moment</p>
                                             <br>

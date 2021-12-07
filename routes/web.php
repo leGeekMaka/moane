@@ -36,6 +36,6 @@ Route::get('/reports', function () {
 Route::get('/operations', function(){
     return view('operations');
 });
-Route::get('/movements', function(){
+Route::get('/cash-register', function(){
     return view('movement');
 });

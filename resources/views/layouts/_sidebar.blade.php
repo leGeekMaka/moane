@@ -30,8 +30,8 @@
               <span class="text">Virement</span>
             </a>
           </li>
-          <li class="nav-item {{ Request::is('movements') ? 'active' : '' }}">
-            <a href="{{url('movements')}}">
+          <li class="nav-item {{ Request::is('cash-register') ? 'active' : '' }}">
+            <a href="{{url('cash-register')}}">
             <span class="icon">
                 <svg
                         width="22"
