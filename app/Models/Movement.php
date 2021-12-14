@@ -17,6 +17,7 @@ class Movement extends Model
         'movement_type',
         'label',
         'amount',
+        'balance_id',
         'operation_id',
         'transaction_id',
         'user_id',
@@ -30,6 +31,11 @@ class Movement extends Model
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    public function balance()
+    {
+        return $this->belongsTo(Balance::class);
     }
 
 }

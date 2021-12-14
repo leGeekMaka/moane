@@ -16,11 +16,12 @@ class CreateMovementsTable extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
             $table->enum('movement_type',['deposit','withdrawal']);
-            $table->decimal('amount',11,2);
+            $table->decimal('amount',12,2);
             $table->string('label',100)->nullable();
             $table->unsignedBigInteger('operation_id')->index();
             $table->unsignedBigInteger('transaction_id')->index();
             $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('balance_id')->index();
             $table->timestamps();
             $table->engine = 'InnoDB';
             $table->foreign('operation_id')
@@ -35,6 +36,11 @@ class CreateMovementsTable extends Migration
                   ->references('id')
                   ->on('users')
                   ;
+            $table->foreign('balance_id')
+                  ->references('id')
+                  ->on('balances')
+                  ;
+
         });
     }
 

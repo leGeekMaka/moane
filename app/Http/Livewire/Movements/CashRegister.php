@@ -18,10 +18,16 @@ class CashRegister extends Component
            $labelWithdrawal,
            $amountWithdrawal,
            $searchLabelAndAmountDeposit,
-           $searchLabelAndAmountWithdrawal;
-           public $editId;
+           $searchLabelAndAmountWithdrawal,
+           $balance,
+           $previousBalance,
+           $editId;
 
     const DEPOSIT = 1, WITHDRAWAL = 2;
+
+    public function mount(){
+        $this->balance = \App\Models\Movement::whereDay('created_at', date('d'))->first();
+    }
     public function render()
     {
         return view('livewire.movements.cash-register',
@@ -29,8 +35,13 @@ class CashRegister extends Component
                 'deposits' => Operations::where('operation_type', SELF::DEPOSIT)->get(),
                 'withdrawals' => Operations::where('operation_type', SELF::WITHDRAWAL)->get(),
                 'transactions' => Transaction::all(),
-                'total_deposit_amount' => \App\Models\Movement::where('movement_type','deposit')->sum('amount'),
-                'total_amount_withdrawn' => \App\Models\Movement::where('movement_type','withdrawal')->sum('amount'),
+
+                'total_deposit_amount' => \App\Models\Movement::where('movement_type','deposit')
+                                                                ->whereDay('created_at', date('d'))
+                                                                ->sum('amount'),
+                'total_amount_withdrawn' => \App\Models\Movement::where('movement_type','withdrawal')
+                                                                ->whereDay('created_at', date('d'))
+                                                                ->sum('amount'),
                 'dailyDeposits' => \App\Models\Movement::whereDay('created_at',date('d'))
                                                         ->where('movement_type','deposit')
                                                         ->where(function($query){
@@ -106,8 +117,10 @@ class CashRegister extends Component
                 'user_id' => 1,
                 'movement_type' => $typeOperation,
                 'label' => $label,
-                'amount' => $amount
+                'amount' => $amount,
+                'balance' => $this->balance + $amount
             ]);
+            $this->balance = $this->balance + $amount;
             session()->flash('message', 'Transaction enregistreé avec succès.');
             $this->dispatchBrowserEvent('closeAlert');
         }catch(\Exception $e){

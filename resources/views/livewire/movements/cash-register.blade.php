@@ -21,7 +21,7 @@
                     </div>
                     <div class="content">
                         <h6 class="mb-10">Solde actuel</h6>
-                        <h6 class="text-bold mb-10">34567</h6>
+                        <h6 class="text-bold mb-10">0.00 FCFA</h6>
                     </div>
                 </div>
                 <!-- End Icon Cart -->
@@ -67,6 +67,7 @@
             <div class="col-lg-6">
                 <!-- input style start -->
                 <div class="card-style mb-30">
+                    <h6 class="mb-25" >Dépôt</h6>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="select-style-1">
@@ -119,6 +120,7 @@
 
             <div class="col-lg-6">
                 <div class="card-style mb-30">
+                    <h6 class="mb-25">Retrait</h6>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="select-style-1">
