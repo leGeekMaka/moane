@@ -2,6 +2,56 @@
 
     <div class="form-elements-wrapper">
         <div class="row">
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="icon purple">
+                        <i class="lni lni-cart-full"></i>
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">Solde veuille</h6>
+                        <h6 class="text-bold mb-10">34567</h6>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="icon purple">
+                        <i class="lni lni-cart-full"></i>
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">Solde actuel</h6>
+                        <h6 class="text-bold mb-10">34567</h6>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="icon purple">
+                        <i class="lni lni-cart-full"></i>
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">Total Dépôt</h6>
+                        <h6 class="text-bold mb-10">{{$total_deposit_amount}} FCFA</h6>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="icon purple">
+                        <i class="lni lni-cart-full"></i>
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">Total Retrait</h6>
+                        <h6 class="text-bold mb-10">{{$total_amount_withdrawn}} FCFA</h6>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+        </div>
+        <div class="row">
             @if(session()->has('message'))
                 <div id="alert-message" class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{session('message')}} </strong>
@@ -17,7 +67,6 @@
             <div class="col-lg-6">
                 <!-- input style start -->
                 <div class="card-style mb-30">
-                    <h6 class="mb-25">Total Dépôt <span class="badge bg-primary">{{$total_deposit_amount}} FCFA</span></h6>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="select-style-1">
@@ -61,7 +110,6 @@
                                 class="main-btn active-btn-outline rounded-md btn-hover">Enregistrer
                         </button>
                     </div>
-
                 </div>
                 <!-- end card -->
             </div>
@@ -71,7 +119,6 @@
 
             <div class="col-lg-6">
                 <div class="card-style mb-30">
-                    <h6 class="mb-25">Total Retrait <span class="badge bg-primary">{{$total_amount_withdrawn}} FCFA</span></h6>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="select-style-1">
