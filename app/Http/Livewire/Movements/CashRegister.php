@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Movements;
 
+use App\Models\Balance;
 use App\Models\Operations;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Log;
@@ -20,14 +21,20 @@ class CashRegister extends Component
            $searchLabelAndAmountDeposit,
            $searchLabelAndAmountWithdrawal,
            $balance,
+        $balanceAmount,
            $previousBalance,
-           $editId;
+           $editId, $bal;
 
     const DEPOSIT = 1, WITHDRAWAL = 2;
 
     public function mount(){
-        $this->balance = \App\Models\Movement::whereDay('created_at', date('d'))->first();
+        $bal = Balance::whereDay('created_at', date('d'))->first();
+        $this->balanceAmount = optional($bal)->balance;
     }
+//    public function updated(){
+//
+//        $this
+//    }
     public function render()
     {
         return view('livewire.movements.cash-register',
@@ -35,7 +42,7 @@ class CashRegister extends Component
                 'deposits' => Operations::where('operation_type', SELF::DEPOSIT)->get(),
                 'withdrawals' => Operations::where('operation_type', SELF::WITHDRAWAL)->get(),
                 'transactions' => Transaction::all(),
-
+                'balances' => Balance::whereDay('created_at', date('d'))->first(),
                 'total_deposit_amount' => \App\Models\Movement::where('movement_type','deposit')
                                                                 ->whereDay('created_at', date('d'))
                                                                 ->sum('amount'),
@@ -111,16 +118,27 @@ class CashRegister extends Component
 
     private function store($typeOperation, $operation, $transaction, $label, $amount) {
         try{
+
+            $this->bal = Balance::whereDay('created_at',date('d'))->first();
+
+            if (is_null($this->bal)){
+                $this->bal = Balance::create(['balance' => $amount]);
+            }
+            else{
+                $this->bal = tap($this->bal)->update(['balance' => $this->bal->balance + $amount]) ;
+            }
+
             \App\Models\Movement::create([
                 'operation_id' => $operation,
                 'transaction_id' => $transaction,
+                'balance_id' => $this->bal->id,
                 'user_id' => 1,
                 'movement_type' => $typeOperation,
                 'label' => $label,
                 'amount' => $amount,
-                'balance' => $this->balance + $amount
             ]);
-            $this->balance = $this->balance + $amount;
+            $this->balanceAmount = $this->bal->balance;
+
             session()->flash('message', 'Transaction enregistreé avec succès.');
             $this->dispatchBrowserEvent('closeAlert');
         }catch(\Exception $e){

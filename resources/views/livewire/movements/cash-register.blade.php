@@ -21,7 +21,7 @@
                     </div>
                     <div class="content">
                         <h6 class="mb-10">Solde actuel</h6>
-                        <h6 class="text-bold mb-10">0.00 FCFA</h6>
+                        <h6 class="text-bold mb-10">{{$balanceAmount > 0 ? $balanceAmount : '0'}} FCFA</h6>
                     </div>
                 </div>
                 <!-- End Icon Cart -->
