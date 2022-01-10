@@ -92,10 +92,12 @@
                                             <label>Type d'opération</label>
                                             <div class="select-position">
                                                 <select wire:model="operationType">
-                                                    <option value="" disabled selected >Selectionner une Opération</option>
+                                                    <option disabled value="&nbsp;" >Selectionner une Opération</option>
+                                                    <option value="" >Selectionner une Opération</option>
                                                         <option value="1">Dépôt</option>
                                                         <option value="2">Retrait</option>
                                                 </select>
+                                                @error('operationType') <span class="text-danger">{{ $message }}</span> @enderror
                                             </div>
                                         </div>
                                     </div>
