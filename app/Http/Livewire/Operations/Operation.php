@@ -9,7 +9,12 @@ class Operation extends Component
 {
     // edit: variable qui permet d'afficher le bouton modifier
     //operationId: de recupere l'objet operation et je l'affecte à cette variable
-    public $libelle, $edit = "false", $operationsId = "",$operationType;
+    public
+         $libelle,
+         $edit = "false",
+         $operationsId = "",
+         $operationType;
+
     const DEPOSIT = 1, WITHDRAWAL = 2;
 
     protected $listeners = ['destroy'];
@@ -22,13 +27,24 @@ class Operation extends Component
     }
 
     protected $rules = [
-        'libelle' => 'required|max:100|unique:operations'
+        'libelle' => 'required|max:100|unique:operations',
+        'operationType' => 'required',
     ];
 
+    protected $messages = [
+        'libelle.required' => 'Veuillez donner un nom',
+        'operationType.required' => 'Veuillez choisir le type l\'operation.',
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
 
     public function store(){
 
         $this->validate();
+
         try{
             Operations::create(['libelle' => $this->libelle, 'operation_type' => $this->operationType]);
             $this->libelle = "";
@@ -114,5 +130,6 @@ class Operation extends Component
         $this->libelle = "";
         $this->operationType = "";
         $this->operationsId = null;
+        $this->resetErrorBag();
     }
 }
