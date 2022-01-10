@@ -1,4 +1,4 @@
-<div>
+<div xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="row">
         <div class="col-lg-6">
             @if(session()->has('message'))

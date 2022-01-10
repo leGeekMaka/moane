@@ -21,6 +21,16 @@ class Transaction extends Component
         'libelle' => 'required|max:100|unique:transactions'
     ];
 
+    protected $messages = [
+        'libelle.required' => 'veuillez donner un nom.'
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+
     public function store(){
         $this->validate();
         try{
