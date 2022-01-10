@@ -21,7 +21,7 @@ class CashRegister extends Component
            $searchLabelAndAmountDeposit,
            $searchLabelAndAmountWithdrawal,
            $balance,
-        $balanceAmount,
+           $balanceAmount,
            $previousBalance,
            $editId, $bal;
 
@@ -125,7 +125,10 @@ class CashRegister extends Component
                 $this->bal = Balance::create(['balance' => $amount]);
             }
             else{
-                $this->bal = tap($this->bal)->update(['balance' => $this->bal->balance + $amount]) ;
+                if ($typeOperation == "withdrawal")
+                  $this->bal = tap($this->bal)->update(['balance' => $this->bal->balance - $amount]) ;
+                else
+                  $this->bal = tap($this->bal)->update(['balance' => $this->bal->balance + $amount]) ;
             }
 
             \App\Models\Movement::create([

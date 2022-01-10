@@ -21,7 +21,13 @@
                     </div>
                     <div class="content">
                         <h6 class="mb-10">Solde actuel</h6>
-                        <h6 class="text-bold mb-10">{{$balanceAmount > 0 ? $balanceAmount : '0'}} FCFA</h6>
+                        @if($balanceAmount > 0)
+                        <h6 class="text-bold mb-10">{{ $balanceAmount }} FCFA</h6>
+                            @elseif($balanceAmount == 0)
+                        <h6 class="text-bold mb-10">{{'0'}} FCFA</h6>
+                        @elseif($balanceAmount < 0)
+                        <h6 class="text-bold mb-10 text-danger">{{ $balanceAmount }} FCFA</h6>
+                        @endif
                     </div>
                 </div>
                 <!-- End Icon Cart -->
