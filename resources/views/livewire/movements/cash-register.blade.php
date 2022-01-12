@@ -9,7 +9,7 @@
                     </div>
                     <div class="content">
                         <h6 class="mb-10">Solde veuille</h6>
-                        <h6 class="text-bold mb-10">34567</h6>
+                        <h6 class="text-bold mb-10">{{$previousBalance}} FCFA</h6>
                     </div>
                 </div>
                 <!-- End Icon Cart -->
@@ -84,6 +84,7 @@
                                         @foreach($deposits as $deposit)
                                             <option value="{{$deposit->id}}">{{$deposit->libelle}}</option>
                                         @endforeach
+                                        @error('depositOperationId') <span class="text-danger">{{ $message }}</span> @enderror
                                     </select>
                                 </div>
                             </div>
@@ -98,6 +99,7 @@
                                         @foreach($transactions as $transaction)
                                             <option value="{{$transaction->id}}">{{$transaction->libelle}}</option>
                                         @endforeach
+                                        @error('depositTransactionId') <span class="text-danger">{{ $message }}</span> @enderror
                                     </select>
                                 </div>
                             </div>
@@ -111,6 +113,7 @@
                     <div class="input-style-1">
                         <label>Montant</label>
                         <input type="text" wire:model="amountDeposit" placeholder="saisir le montant"/>
+                        @error('amountDeposit') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="text-center">
                         <button wire:click="storeDeposit"

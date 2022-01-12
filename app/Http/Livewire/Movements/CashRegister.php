@@ -29,7 +29,19 @@ class CashRegister extends Component
 
     public function mount(){
         $bal = Balance::whereDay('created_at', date('d'))->first();
-        $this->balanceAmount = optional($bal)->balance;
+
+        if (is_null($bal)){
+            $previousBalance = Balance::latest('id')->first();
+            $this->balanceAmount = $previousBalance->balance;
+            $this->previousBalance = $this->balanceAmount;
+        }
+
+        if (! is_null($bal)){
+             $this->balanceAmount = $bal->balance;
+             $previousBalance = Balance::whereDay('created_at','<', date('d'))->first();
+             $this->previousBalance = $previousBalance->balance;
+        }
+
     }
 //    public function updated(){
 //
@@ -80,6 +92,12 @@ class CashRegister extends Component
         'amountDeposit' => 'required',
     ];*/
 
+    public $messages = [
+        'depositOperationId.required' => 'veuillez choisir le type d\'operation.',
+        'depositTransactionId.required' => 'veuillez choisir le type de transaction.',
+        'amountDeposit.required' => 'veuillez saisir le montant.',
+    ];
+
     public  function storeDeposit(){
         $this->validate([
             'depositOperationId' => 'required',
@@ -122,7 +140,7 @@ class CashRegister extends Component
             $this->bal = Balance::whereDay('created_at',date('d'))->first();
 
             if (is_null($this->bal)){
-                $this->bal = Balance::create(['balance' => $amount]);
+                $this->bal = Balance::create(['balance' => $this->previousBalance + $amount]);
             }
             else{
                 if ($typeOperation == "withdrawal")
