@@ -32,14 +32,14 @@ class CashRegister extends Component
 
         if (is_null($bal)){
             $previousBalance = Balance::latest('id')->first();
-            $this->balanceAmount = $previousBalance->balance;
+            $this->balanceAmount = optional($previousBalance)->balance;
             $this->previousBalance = $this->balanceAmount;
         }
 
         if (! is_null($bal)){
-             $this->balanceAmount = $bal->balance;
+             $this->balanceAmount = optional($bal)->balance;
              $previousBalance = Balance::whereDay('created_at','<', date('d'))->first();
-             $this->previousBalance = $previousBalance->balance;
+             $this->previousBalance = optional($previousBalance)->balance;
         }
 
     }
