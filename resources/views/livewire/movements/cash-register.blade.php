@@ -9,7 +9,13 @@
                     </div>
                     <div class="content">
                         <h6 class="mb-10">Solde veuille</h6>
-                        <h6 class="text-bold mb-10">{{$previousBalance}} FCFA</h6>
+                        @if($previousBalance > 0)
+                            <h6 class="text-bold mb-10">{{$previousBalance}} FCFA</h6>
+                            @elseif($previousBalance == 0)
+                            <h6 class="text-bold mb-10">{{'0'}} FCFA</h6>
+                            @elseif($previousBalance < 0)
+                            <h6 class="text-bold mb-10 text-danger">{{$previousBalance}} FCFA</h6>
+                        @endif
                     </div>
                 </div>
                 <!-- End Icon Cart -->
