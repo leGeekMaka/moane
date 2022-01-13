@@ -7,7 +7,7 @@
                 </div>
                 <div class="content">
                     <h6 class="mb-10">Total Dépôt</h6>
-                    <h3 class="text-bold mb-10">34567</h3>
+                    <h3 class="text-bold mb-10">{{ $total_deposit  }}</h3>
                     <p class="text-sm text-success">
                         <i class="lni lni-arrow-up"></i> +2.00%
                         <span class="text-gray">(aujourd'huit)</span>
@@ -76,7 +76,7 @@
                 <label>Employé</label>
                 <div class="select-position">
                     <select>
-                        <option value="" selected>Carole</option>
+                        <option value="" selected disabled>...</option>
                         <option value="">Tony</option>
                         <option value="">GOBE</option>
                     </select>
@@ -88,9 +88,10 @@
                 <label>Opération</label>
                 <div class="select-position">
                     <select>
-                        <option value="" selected>Dépot Client</option>
-                        <option value="">Retrait Client</option>
-                        <option value="">Approv Caisse</option>
+                        <option value="" selected disabled>...</option>
+                        @foreach($operations as $operation)
+                           <option value="{{$operation->id}}">{{$operation->libelle}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -100,10 +101,10 @@
                 <label>Transactions</label>
                 <div class="select-position">
                     <select>
-                        <option value="" selected>Mobile Money</option>
-                        <option value="">Orange Money</option>
-                        <option value="">YUP</option>
-                        <option value="">RIA</option>
+                        <option value="" selected disabled>...</option>
+                        @foreach($transactions as $transaction)
+                          <option value="{{$transaction->id}}">{{$transaction->libelle}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
